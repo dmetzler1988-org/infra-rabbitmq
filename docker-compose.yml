@@ -1,0 +1,25 @@
+services:
+  broker:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        TIMEZONE: ${TIMEZONE}
+    volumes:
+      - broker-config:/etc/rabbitmq
+    ports:
+      - ${PORT}:5672
+      - ${MGMT_PORT}:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${PASSWORD}
+      RABBITMQ_NODENAME: ${NODENAME}
+    restart: "no"
+
+networks:
+  default:
+    external: true
+    name: intranet
+
+volumes:
+  broker-config:
